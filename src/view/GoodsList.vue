@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="main">
                                         <div class="name">{{item.productName}}</div>
-                                        <div class="price">{{item.productPrice | formatMoney()}}</div>
+                                        <div class="price">{{item.productPrice | formatMoney}}</div>
                                         <div class="btn-area">
                                             <a href="javascript:;" class="btn btn--m">加入购物车</a>
                                         </div>
@@ -124,7 +124,7 @@
         },
         filters: {
             formatMoney(data){
-                return '￥' + data + '元'
+                return '￥' + data + '元';
             }
         },
         components: {
