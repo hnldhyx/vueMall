@@ -1,3 +1,4 @@
+<!-- 一个使用vue切换nav的示例 -->
 <template>
     <div class="nav-demo">
         <div class="nav-demo-tabs">

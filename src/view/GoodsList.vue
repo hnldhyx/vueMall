@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- nav demo -->
+        <!-- nav demo（一个使用vue切换nav的示例） -->
         <!-- <nav-demo></nav-demo> -->
 
         <!-- header -->
@@ -63,6 +63,7 @@
 
     import axios from 'axios'
 
+    // 一个使用vue切换nav的示例
     import NavDemo from '../components/NavDemo.vue'
 
     import MallHeader from '../components/MallHeader.vue'
@@ -131,7 +132,7 @@
             }
         },
         components: {
-            'nav-demo': NavDemo,
+            'nav-demo': NavDemo, // 一个使用vue切换nav的示例
             'mall-header': MallHeader,
             'mall-footer': MallFooter,
             'goods-bread': GoodsBread
