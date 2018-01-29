@@ -1,12 +1,13 @@
 <template>
     <div>
+        <!-- nav demo -->
+        <!-- <nav-demo></nav-demo> -->
+
         <!-- header -->
         <mall-header></mall-header>
         <!-- 面包屑 -->
         <goods-bread>
-            <slot>
-                <router-link to="a">a</router-link>
-            </slot>
+            <router-link to="cart" slot="second-breadcrumb">cart</router-link>
         </goods-bread>
         <div class="accessory-result-page accessory-page">
             <div class="container">
@@ -61,6 +62,8 @@
 <script>
 
     import axios from 'axios'
+
+    import NavDemo from '../components/NavDemo.vue'
 
     import MallHeader from '../components/MallHeader.vue'
     import MallFooter from '../components/MallFooter.vue'
@@ -128,6 +131,7 @@
             }
         },
         components: {
+            'nav-demo': NavDemo,
             'mall-header': MallHeader,
             'mall-footer': MallFooter,
             'goods-bread': GoodsBread
