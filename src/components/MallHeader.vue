@@ -16,8 +16,9 @@
             <div class="navbar-right-container" style="display: flex;">
                 <div class="navbar-menu-container">
                     <span class="navbar-link"></span>
-                    <a href="javascript:void(0)" class="navbar-link">Login</a>
-                    <a href="javascript:void(0)" class="navbar-link">Logout</a>
+                    <span v-text="nickName" v-if="nickName"></span>
+                    <a href="javascript:void(0)" class="navbar-link" @click="_showLogin" v-if="!nickName">Login</a>
+                    <a href="javascript:void(0)" class="navbar-link" @click="_logout" v-if="nickName">Logout</a>
                     <div class="navbar-cart-container">
                         <span class="navbar-cart-count"></span>
                         <router-link to="cart" class="navbar-link navbar-cart-link">
@@ -30,12 +31,88 @@
                 </div>
             </div>
         </div>
+        <!-- 登录的弹窗 -->
+        <div class="md-modal modal-msg md-modal-transition" :class="{'md-show': loginDia}">
+            <div class="md-modal-inner">
+                <div class="md-top">
+                    <div class="md-title">Login in</div>
+                    <button class="md-close" @click="_closeDialog">Close</button>
+                </div>
+                <div class="md-content">
+                    <div class="confirm-tips">
+                        <div class="error-wrap">
+                            <span class="error error-show" v-if="errorTip">用户名或者密码错误</span>
+                        </div>
+                        <ul>
+                            <li class="regi_form_input">
+                                <i class="icon IconPeople"></i>
+                                <input type="text" tabindex="1" name="loginname" v-model="userName" class="regi_login_input regi_login_input_left" placeholder="User Name" data-type="loginname">
+                            </li>
+                            <li class="regi_form_input noMargin">
+                                <i class="icon IconPwd"></i>
+                                <input type="password" tabindex="2"  name="password" v-model="userPwd" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="Password">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="login-wrap">
+                        <a href="javascript:;" class="btn-login" @click="login()">登  录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 遮罩层 -->
+        <div class="md-overlay" v-if="overlay" @click="_closeDialog"></div>
     </header>
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         name: 'mallHeader',
+        data(){
+            return {
+                loginDia: false,
+                overlay: false, //控制遮罩层的显隐
+                userName: '',
+                userPwd: '',
+                errorTip: false,
+                nickName: ''
+            }
+        },
+        methods: {
+            _showLogin(){
+                this.loginDia = true;
+                this.overlay = true;
+            },
+            _logout(){
+                this.userName = '';
+                this.userPwd = '';
+                this.nickName = false;
+            },
+            _closeDialog(){
+                this.loginDia = false;
+                this.overlay = false;
+            },
+            login(){
+                if(!this.userName || !this.userPwd){
+                    this.errorTip = true;
+                    return;
+                }
+                axios.get('/loginData', {
+                    userName: this.userName,
+                    userPwd: this.userPwd
+                }).then(rsp => {
+                    let res = rsp.data;
+                    if(res.status == 0){
+                        this.errorTip = false;
+                        this._closeDialog();
+                        this.nickName = res.result.userName;
+                    }else{
+                        this.errorTip = true;
+                    }
+                })
+            }
+        }
     }
 </script>
 

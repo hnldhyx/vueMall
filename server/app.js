@@ -5,8 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// 加载路由
 var index = require('./routes/index');
 var users = require('./routes/users');
+var goods = require('./routes/goods');
 
 var app = express();
 
@@ -30,8 +32,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 当使用/的时候，访问index的路由；当使用/users的时候，会访问users路由
 app.use('/', index);
 app.use('/users', users);
+app.use('/goods', goods);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

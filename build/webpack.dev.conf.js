@@ -13,7 +13,10 @@ const portfinder = require('portfinder')
 // mock
 const express = require('express')
 const app = express()
-var  goodsData = require('../mock/goodsList.json')
+
+var goodsData = require('../mock/goodsList.json')
+var loginData = require('../mock/login.json')
+
 var apiRoutes = express.Router()
 app.use(apiRoutes)
 
@@ -53,6 +56,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     before(app){
       app.get('/goodsData', (req, res) => {
         res.json(goodsData)
+      })
+      app.get('/loginData', (req, res) => {
+        res.json(loginData)
       })
     }
   },
