@@ -16,6 +16,7 @@ const app = express()
 
 var goodsData = require('../mock/goodsList.json')
 var loginData = require('../mock/login.json')
+var cartList = require('../mock/cartList.json')
 
 var apiRoutes = express.Router()
 app.use(apiRoutes)
@@ -59,6 +60,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       })
       app.get('/loginData', (req, res) => {
         res.json(loginData)
+      })
+      app.get('/cartList', (req, res) => {
+        res.json(cartList);
       })
     }
   },

@@ -4,7 +4,7 @@
         <!-- <nav-demo></nav-demo> -->
 
         <!-- header -->
-        <mall-header></mall-header>
+        <mall-header @loginInfo="_checkLogStatus"></mall-header>
         <!-- 面包屑 -->
         <goods-bread>
             <router-link to="cart" slot="second-breadcrumb">cart</router-link>
@@ -41,7 +41,7 @@
                                     <div class="main">
                                         <div class="name">{{item.productName}}</div>
                                         <div class="price">{{item.productPrice | formatMoney}}</div>
-                                        <div class="btn-area">
+                                        <div class="btn-area" @click="_addToCart(item)">
                                             <a href="javascript:;" class="btn btn--m">加入购物车</a>
                                         </div>
                                     </div>
@@ -89,6 +89,7 @@
                     'startPrice': '1000',
                     'endPrice': '2000'
                 }],
+                hasLogin: false, //判断是否登录
                 priceChecked: 'all', //控制选择某一项价格筛选项的样式
                 uiLoadingFlag: false, //控制loading的显隐
                 filterBy: false, //控制小屏幕下价格筛选框显隐
@@ -124,6 +125,17 @@
             _closeFilterPop(){
                 this.filterBy = false;
                 this.overlay = false;
+            },
+            _checkLogStatus(loginInfo){
+                this.hasLogin = loginInfo;
+            },
+            _addToCart(item){
+                if(!this.hasLogin){
+                    alert('请登录');
+                    return false;
+                }else{
+                    console.log('a');
+                }
             }
         },
         filters: {

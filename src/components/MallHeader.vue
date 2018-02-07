@@ -46,7 +46,7 @@
                         <ul>
                             <li class="regi_form_input">
                                 <i class="icon IconPeople"></i>
-                                <input type="text" tabindex="1" name="loginname" v-model="userName" class="regi_login_input regi_login_input_left" placeholder="User Name" data-type="loginname">
+                                <input type="text" tabindex="1" name="loginname" v-model="userName" class="regi_login_input regi_login_input_left" placeholder="User Name" data-type="loginname" autofocus>
                             </li>
                             <li class="regi_form_input noMargin">
                                 <i class="icon IconPwd"></i>
@@ -88,6 +88,7 @@
                 this.userName = '';
                 this.userPwd = '';
                 this.nickName = false;
+                this.$emit('loginInfo', false);
             },
             _closeDialog(){
                 this.loginDia = false;
@@ -107,6 +108,9 @@
                         this.errorTip = false;
                         this._closeDialog();
                         this.nickName = res.result.userName;
+
+                        this.$emit('loginInfo', true);
+
                     }else{
                         this.errorTip = true;
                     }
