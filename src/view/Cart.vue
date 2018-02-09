@@ -60,45 +60,45 @@
                     <ul class="cart-item-list">
                     <li v-for="(item, index) in cartList" :key="index">
                         <div class="cart-tab-1">
-                        <div class="cart-item-check">
-                            <a href="javascipt:;" class="checkbox-btn item-check-btn">
-                            <svg class="icon icon-ok">
-                                <use xlink:href="#icon-ok"></use>
-                            </svg>
-                            </a>
-                        </div>
-                        <div class="cart-item-pic">
-                            <img v-lazy="'/static/'+item.productImg">
-                        </div>
-                        <div class="cart-item-title">
-                            <div class="item-name">{{item.productName}}</div>
-                        </div>
+                            <div class="cart-item-check">
+                                <a href="javascipt:;" class="checkbox-btn item-check-btn" :class="{'checked': item.hasChecked}" @click="_checkItem(item)">
+                                    <svg class="icon icon-ok">
+                                        <use xlink:href="#icon-ok"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="cart-item-pic">
+                                <img v-lazy="'/static/'+item.productImg">
+                            </div>
+                            <div class="cart-item-title">
+                                <div class="item-name">{{item.productName}}</div>
+                            </div>
                         </div>
                         <div class="cart-tab-2">
-                        <div class="item-price">{{item.salePrice}}</div>
+                            <div class="item-price">{{item.salePrice | formatMoney}}</div>
                         </div>
                         <div class="cart-tab-3">
-                        <div class="item-quantity">
-                            <div class="select-self select-self-open">
-                            <div class="select-self-area">
-                                <a class="input-sub">-</a>
-                                <span class="select-ipt">{{item.productNum}}</span>
-                                <a class="input-add">+</a>
+                            <div class="item-quantity">
+                                <div class="select-self select-self-open">
+                                <div class="select-self-area">
+                                    <a class="input-sub" @click="_changeAmount(item, 'sub')">-</a>
+                                    <span class="select-ipt">{{item.productNum}}</span>
+                                    <a class="input-add" @click="_changeAmount(item, 'add')">+</a>
+                                </div>
+                                </div>
                             </div>
-                            </div>
-                        </div>
                         </div>
                         <div class="cart-tab-4">
-                        <div class="item-price-total">{{(item.productNum*item.salePrice)}}</div>
+                            <div class="item-price-total">{{(item.productNum*item.salePrice) | formatMoney}}</div>
                         </div>
                         <div class="cart-tab-5">
-                        <div class="cart-item-opration">
-                            <a href="javascript:;" class="item-edit-btn">
-                            <svg class="icon icon-del">
-                                <use xlink:href="#icon-del"></use>
-                            </svg>
-                            </a>
-                        </div>
+                            <div class="cart-item-opration">
+                                <a href="javascript:;" class="item-edit-btn">
+                                    <svg class="icon icon-del">
+                                        <use xlink:href="#icon-del"></use>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                     </li>
                     </ul>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="cart-foot-r">
                     <div class="item-total">
-                        Item total: <span class="total-price">aaa</span>
+                        Item total: <span class="total-price">{{totalPrice | formatMoney}}</span>
                     </div>
                     <div class="btn-wrap">
                         <a class="btn btn--red">Checkout</a>
@@ -168,12 +168,51 @@
         created(){
             this._getCartList();
         },
+        filters: {
+            formatMoney(money){
+                return `￥${money}元`;
+            }
+        },
+        computed: {
+            totalPrice(){
+                let sum = 0;
+                for(let i=0; i<this.cartList; i++){
+                    if(this.cartList.hasChecked){
+                        sum += this.cartList.productNum * this.cartList.salePrice;
+                    }
+                }
+                return sum;
+            }
+        },
         methods: {
+            /* 获取列表数据 */
             _getCartList(){
                 axios.get('/cartList').then(rsp => {
                     let res = rsp.data;
                     this.cartList = res.result;
                 })
+            },
+            /* 勾选商品 */
+            _checkItem(item){
+                if(item.hasChecked){
+                    item.hasChecked = false;
+                }else{
+                    if(typeof item.hasChecked == 'undefined'){
+                        this.$set(item, 'hasChecked', false);
+                    }
+                    item.hasChecked = true;
+                }
+                
+            },
+            /* 加/减物品数量 */
+            _changeAmount(item, method){
+                if(method == 'add'){
+                    item.productNum ++;
+                }else if(method == 'sub' && item.productNum != 0){
+                    item.productNum --;
+                }else{
+                    return false;
+                }
             }
         }
     }
