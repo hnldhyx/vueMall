@@ -25,7 +25,7 @@
                             <dd @click="_setPriceFilter('all')">
                                 <a href="javascript:void(0)" :class="{cur:priceChecked == 'all'}">All</a>
                             </dd>
-                            <dd v-for="(price,index) in priceFilterBy" @click="_setPriceFilter(index)">
+                            <dd v-for="(price,index) in priceFilterBy" :key="index" @click="_setPriceFilter(index)">
                                 <a href="javascript:void(0)" :class="{cur:priceChecked == index}">{{price.startPrice}} - {{price.endPrice}}</a>
                             </dd>
                         </dl>
@@ -34,7 +34,7 @@
                     <div class="accessory-list-wrap">
                         <div class="accessory-list col-4">
                             <ul>
-                                <li v-for="(item, index) in goodsData" :key="item.productId" :data-id="item.productId">
+                                <li v-for="(item) in goodsData" :key="item.productId" :data-id="item.productId">
                                     <div class="pic">
                                         <a href="javascript:"><img v-lazy="'static/' + item.productImg" alt=""></a>
                                     </div>

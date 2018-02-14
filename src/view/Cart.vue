@@ -47,84 +47,84 @@
                 <h2 class="page-title-h2"><span>My Cart</span></h2>
                 </div>
                 <div class="item-list-wrap">
-                <div class="cart-item">
-                    <div class="cart-item-head">
-                    <ul>
-                        <li>Items</li>
-                        <li>Price</li>
-                        <li>Quantity</li>
-                        <li>Subtotal</li>
-                        <li>Edit</li>
-                    </ul>
+                    <div class="cart-item">
+                        <div class="cart-item-head">
+                        <ul>
+                            <li>Items</li>
+                            <li>Price</li>
+                            <li>Quantity</li>
+                            <li>Subtotal</li>
+                            <li>Edit</li>
+                        </ul>
+                        </div>
+                        <ul class="cart-item-list">
+                            <li v-for="(item, index) in cartList" :key="index">
+                                <div class="cart-tab-1">
+                                    <div class="cart-item-check">
+                                        <a href="javascipt:;" class="checkbox-btn item-check-btn" :class="{'checked': item.hasChecked}" @click="_checkItem(item)">
+                                            <svg class="icon icon-ok">
+                                                <use xlink:href="#icon-ok"></use>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="cart-item-pic">
+                                        <img v-lazy="`/static/${item.productImg}`">
+                                    </div>
+                                    <div class="cart-item-title">
+                                        <div class="item-name">{{item.productName}}</div>
+                                    </div>
+                                </div>
+                                <div class="cart-tab-2">
+                                    <div class="item-price">{{item.salePrice | formatMoney}}</div>
+                                </div>
+                                <div class="cart-tab-3">
+                                    <div class="item-quantity">
+                                        <div class="select-self select-self-open">
+                                        <div class="select-self-area">
+                                            <a class="input-sub" @click="_changeAmount(item, 'sub')">-</a>
+                                            <span class="select-ipt">{{item.productNum}}</span>
+                                            <a class="input-add" @click="_changeAmount(item, 'add')">+</a>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cart-tab-4">
+                                    <div class="item-price-total">{{(item.productNum*item.salePrice) | formatMoney}}</div>
+                                </div>
+                                <div class="cart-tab-5">
+                                    <div class="cart-item-opration">
+                                        <a href="javascript:;" class="item-edit-btn">
+                                            <svg class="icon icon-del">
+                                                <use xlink:href="#icon-del"></use>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <ul class="cart-item-list">
-                    <li v-for="(item, index) in cartList" :key="index">
-                        <div class="cart-tab-1">
-                            <div class="cart-item-check">
-                                <a href="javascipt:;" class="checkbox-btn item-check-btn" :class="{'checked': item.hasChecked}" @click="_checkItem(item)">
-                                    <svg class="icon icon-ok">
-                                        <use xlink:href="#icon-ok"></use>
-                                    </svg>
-                                </a>
-                            </div>
-                            <div class="cart-item-pic">
-                                <img v-lazy="'/static/'+item.productImg">
-                            </div>
-                            <div class="cart-item-title">
-                                <div class="item-name">{{item.productName}}</div>
-                            </div>
-                        </div>
-                        <div class="cart-tab-2">
-                            <div class="item-price">{{item.salePrice | formatMoney}}</div>
-                        </div>
-                        <div class="cart-tab-3">
-                            <div class="item-quantity">
-                                <div class="select-self select-self-open">
-                                <div class="select-self-area">
-                                    <a class="input-sub" @click="_changeAmount(item, 'sub')">-</a>
-                                    <span class="select-ipt">{{item.productNum}}</span>
-                                    <a class="input-add" @click="_changeAmount(item, 'add')">+</a>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cart-tab-4">
-                            <div class="item-price-total">{{(item.productNum*item.salePrice) | formatMoney}}</div>
-                        </div>
-                        <div class="cart-tab-5">
-                            <div class="cart-item-opration">
-                                <a href="javascript:;" class="item-edit-btn">
-                                    <svg class="icon icon-del">
-                                        <use xlink:href="#icon-del"></use>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                    </ul>
-                </div>
                 </div>
                 <div class="cart-foot-wrap">
-                <div class="cart-foot-inner">
-                    <div class="cart-foot-l">
-                    <div class="item-all-check">
-                        <a href="javascipt:;">
-                        <span class="checkbox-btn item-check-btn">
-                            <svg class="icon icon-ok"><use xlink:href="#icon-ok"/></svg>
-                        </span>
-                        <span>Select all</span>
-                        </a>
+                    <div class="cart-foot-inner">
+                        <div class="cart-foot-l">
+                            <div class="item-all-check">
+                                <a href="javascipt:;" @click="_selectAll()">
+                                    <span class="checkbox-btn item-check-btn" :class="{'checked': checkAllFlag}">
+                                        <svg class="icon icon-ok"><use xlink:href="#icon-ok"/></svg>
+                                    </span>
+                                    <span>Select all</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="cart-foot-r">
+                            <div class="item-total">
+                                Item total: <span class="total-price">{{totalPrice | formatMoney}}</span>
+                            </div>
+                            <div class="btn-wrap">
+                                <a class="btn btn--red">Checkout</a>
+                            </div>
+                        </div>
                     </div>
-                    </div>
-                    <div class="cart-foot-r">
-                    <div class="item-total">
-                        Item total: <span class="total-price">{{totalPrice | formatMoney}}</span>
-                    </div>
-                    <div class="btn-wrap">
-                        <a class="btn btn--red">Checkout</a>
-                    </div>
-                    </div>
-                </div>
                 </div>
             </div>
         </div>
@@ -162,7 +162,8 @@
         },
         data(){
             return {
-                cartList: []
+                cartList: [],
+                checkAllFlag: false
             }
         },
         created(){
@@ -171,17 +172,6 @@
         filters: {
             formatMoney(money){
                 return `￥${money}元`;
-            }
-        },
-        computed: {
-            totalPrice(){
-                let sum = 0;
-                for(let i=0; i<this.cartList; i++){
-                    if(this.cartList.hasChecked){
-                        sum += this.cartList.productNum * this.cartList.salePrice;
-                    }
-                }
-                return sum;
             }
         },
         methods: {
@@ -197,12 +187,44 @@
                 if(item.hasChecked){
                     item.hasChecked = false;
                 }else{
+                    // 当没有该属性时，应使用$set添加属性
                     if(typeof item.hasChecked == 'undefined'){
                         this.$set(item, 'hasChecked', false);
                     }
                     item.hasChecked = true;
                 }
+                // for(let i=0;i<this.cartList.length;i++){
+                //     let item = this.cartList[i];
+                //     if()
+                // }
+                this.$nextTick(() => {
+                    let checkedAmount = document.querySelectorAll('.cart-item-check a.checked').length;
+                    if(checkedAmount == this.cartList.length){
+                        this.checkAllFlag = true;
+                    }else{
+                        this.checkAllFlag = false;
+                    }
+                })
                 
+                
+            },
+            /* 全选 */
+            _selectAll(){
+                let status;
+                if(this.checkAllFlag){
+                    this.checkAllFlag = status = false;
+                }else{
+                    this.checkAllFlag = status = true;
+                }
+                for(let i=0;i<this.cartList.length;i++){
+                    let cartItem = this.cartList[i];
+                    if(typeof cartItem.hasChecked == 'undefined'){
+                        this.$set(cartItem, 'hasChecked', status);
+                    }else{
+                        cartItem.hasChecked = status;
+                    }
+                }
+
             },
             /* 加/减物品数量 */
             _changeAmount(item, method){
