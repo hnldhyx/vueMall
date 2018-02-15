@@ -163,6 +163,7 @@
         data(){
             return {
                 cartList: [],
+                totalPrice: 0,
                 checkAllFlag: false
             }
         },
@@ -197,6 +198,8 @@
                 //     let item = this.cartList[i];
                 //     if()
                 // }
+
+                // 此处使用操作dom的方法使checkbox和全选联动
                 this.$nextTick(() => {
                     let checkedAmount = document.querySelectorAll('.cart-item-check a.checked').length;
                     if(checkedAmount == this.cartList.length){
@@ -205,6 +208,8 @@
                         this.checkAllFlag = false;
                     }
                 })
+
+                this._updateTotalPrice();
                 
                 
             },
@@ -224,7 +229,7 @@
                         cartItem.hasChecked = status;
                     }
                 }
-
+                this._updateTotalPrice();
             },
             /* 加/减物品数量 */
             _changeAmount(item, method){
@@ -235,6 +240,18 @@
                 }else{
                     return false;
                 }
+                this._updateTotalPrice();
+            },
+            /* update总价 */
+            _updateTotalPrice(){
+                let total = 0;
+                for(let i=0;i<this.cartList.length;i++){
+                    let cart = this.cartList[i];
+                    if(cart.hasChecked){
+                        total += cart.salePrice * cart.productNum;
+                    }
+                }
+                this.totalPrice = total;
             }
         }
     }
