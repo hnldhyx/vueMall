@@ -168,11 +168,13 @@ Vue.prototype.triggerEvent = function(dom, eventType){
 Vue.prototype.numberTrim = function(num){
   let arr = num.split('');
   let index;
+  let allZero = true;
   let result;
   for(let i=0;i<arr.length;i++){
     if(arr[i] == 0){
       index = i;
     }else{
+      allZero = false;
       break;
     }
   }
@@ -180,6 +182,7 @@ Vue.prototype.numberTrim = function(num){
     result = num
   }else{
     result = arr.slice(0-index+1)
+    if(allZero) result = 0;
   }
   return result;
 }

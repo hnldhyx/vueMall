@@ -249,7 +249,7 @@
                 }
             },
             _checkInput(e, item){
-                if((e.keyCode < 48 || e.keyCode > 57) && e.keyCode != 8){
+                if((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105) && e.keyCode != 8){
                     e.preventDefault();
                 }
             },
@@ -272,6 +272,7 @@
         width: 60px;
         border: 1px #ccc solid;
         margin: 5px 0;
+        padding: 0 5px;
     }
 }
 
