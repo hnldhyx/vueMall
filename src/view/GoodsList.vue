@@ -4,11 +4,9 @@
         <!-- <nav-demo></nav-demo> -->
 
         <!-- header -->
-        <mall-header @loginInfo="_checkLogStatus"></mall-header>
+        <mall-header @loginInfo="_checkLogStatus" :cartCount="cartCount"></mall-header>
         <!-- 面包屑 -->
-        <goods-bread>
-            <router-link to="cart" slot="second-breadcrumb">cart</router-link>
-        </goods-bread>
+        <goods-bread></goods-bread>
         <div class="accessory-result-page accessory-page">
             <div class="container">
                 <div class="filter-nav">
@@ -41,8 +39,9 @@
                                     <div class="main">
                                         <div class="name">{{item.productName}}</div>
                                         <div class="price">{{item.productPrice | formatMoney}}</div>
-                                        <div class="btn-area" @click="_addToCart(item)">
-                                            <a href="javascript:;" class="btn btn--m">加入购物车</a>
+                                        <div class="btn-area">
+                                            <a href="javascript:;" class="btn btn--m" @click="_addToCart(item)" v-if="!item.hasCarted">加入购物车</a>
+                                            <a href="javascript:;" class="btn btn--m" @click="_removeFromCart(item)" v-if="item.hasCarted">移出购物车</a>
                                         </div>
                                     </div>
                                 </li>
@@ -93,7 +92,8 @@
                 priceChecked: 'all', //控制选择某一项价格筛选项的样式
                 uiLoadingFlag: false, //控制loading的显隐
                 filterBy: false, //控制小屏幕下价格筛选框显隐
-                overlay: false //控制遮罩层的显隐
+                overlay: false, //控制遮罩层的显隐
+                cartCount: 0
             }
         },
         mounted(){
@@ -111,6 +111,14 @@
                     let res = rsp.data;
                     if(res.status == 0){
                         this.goodsData = res.result;
+                        let cartCount = 0;
+                        for(let i=0;i<this.goodsData.length;i++){
+                            if(this.goodsData[i].hasCarted){
+                                cartCount++;
+                            } 
+                        }
+                        this.cartCount = cartCount;
+                        
                     }
                 })
             },
@@ -132,10 +140,16 @@
             _addToCart(item){
                 if(!this.hasLogin){
                     alert('请登录');
+                    this.triggerEvent(document.querySelector('a.navbar-link'), 'click');
                     return false;
                 }else{
-                    console.log('a');
+                    item.hasCarted = true;
+                    this.cartCount ++;
                 }
+            },
+            _removeFromCart(item){
+                item.hasCarted = false;
+                this.cartCount --;
             }
         },
         filters: {

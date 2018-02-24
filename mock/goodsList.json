@@ -5,49 +5,57 @@
           "productId":"10001",
           "productName":"小米6",
           "productPrice":"2499",
-          "productImg":"mi6.jpg"
+          "productImg":"mi6.jpg",
+          "hasCarted": true
       },
       {
         "productId":"10002",
         "productName":"小米笔记本",
         "productPrice":"3999",
-        "productImg":"note.jpg"
+        "productImg":"note.jpg",
+        "hasCarted": false
       },
       {
         "productId":"10003",
         "productName":"小米6",
         "productPrice":"2499",
-        "productImg":"mi6.jpg"
+        "productImg":"mi6.jpg",
+        "hasCarted": false
       },
       {
         "productId":"10004",
         "productName":"小米6",
         "productPrice":"2499",
-        "productImg":"1.jpg"
+        "productImg":"1.jpg",
+        "hasCarted": false
       },
       {
         "productId":"10005",
         "productName":"小米6",
         "productPrice":"2499",
-        "productImg":"2.jpg"
+        "productImg":"2.jpg",
+        "hasCarted": true
       },
       {
         "productId":"10006",
         "productName":"小米6",
         "productPrice":"2499",
-        "productImg":"3.jpg"
+        "productImg":"3.jpg",
+        "hasCarted": false
       },
       {
         "productId":"10007",
         "productName":"小米6",
         "productPrice":"2499",
-        "productImg":"4.jpg"
+        "productImg":"4.jpg",
+        "hasCarted": false
       },
       {
         "productId":"10008",
         "productName":"小米6",
         "productPrice":"2499",
-        "productImg":"5.jpg"
+        "productImg":"5.jpg",
+        "hasCarted": false
       }
     ]
   }

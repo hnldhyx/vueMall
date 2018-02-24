@@ -1,6 +1,6 @@
 <template>
     <div class="cart">
-        <mall-header></mall-header>
+        <mall-header :cartCount="cartList.length"></mall-header>
         <goods-bread>
             <span slot="second-breadcrumb">My cart</span>
         </goods-bread>
@@ -82,7 +82,7 @@
                                         <div class="select-self select-self-open">
                                         <div class="select-self-area">
                                             <a class="input-sub" @click="_changeAmount(item, 'sub')">-</a>
-                                            <span class="select-ipt">{{item.productNum}}</span>
+                                            <input class="select-ipt" @keydown="_checkInput($event, item)" @input="_priceInput(item)" v-model="item.productNum" />
                                             <a class="input-add" @click="_changeAmount(item, 'add')">+</a>
                                         </div>
                                         </div>
@@ -163,7 +163,6 @@
         data(){
             return {
                 cartList: [],
-                totalPrice: 0,
                 checkAllFlag: false
             }
         },
@@ -173,6 +172,19 @@
         filters: {
             formatMoney(money){
                 return `￥${money}元`;
+            }
+        },
+        computed: {
+            /* 使用computed计算总价 */
+            totalPrice(){
+                let total = 0;
+                for(let i=0;i<this.cartList.length;i++){
+                    let cart = this.cartList[i];
+                    if(cart.hasChecked){
+                        total += cart.salePrice * cart.productNum;
+                    }
+                }
+                return total;
             }
         },
         methods: {
@@ -208,10 +220,6 @@
                         this.checkAllFlag = false;
                     }
                 })
-
-                this._updateTotalPrice();
-                
-                
             },
             /* 全选 */
             _selectAll(){
@@ -229,7 +237,6 @@
                         cartItem.hasChecked = status;
                     }
                 }
-                this._updateTotalPrice();
             },
             /* 加/减物品数量 */
             _changeAmount(item, method){
@@ -240,19 +247,38 @@
                 }else{
                     return false;
                 }
-                this._updateTotalPrice();
             },
-            /* update总价 */
-            _updateTotalPrice(){
-                let total = 0;
-                for(let i=0;i<this.cartList.length;i++){
-                    let cart = this.cartList[i];
-                    if(cart.hasChecked){
-                        total += cart.salePrice * cart.productNum;
-                    }
+            _checkInput(e, item){
+                if((e.keyCode < 48 || e.keyCode > 57) && e.keyCode != 8){
+                    e.preventDefault();
                 }
-                this.totalPrice = total;
+            },
+            _priceInput(item){
+                let price = item.productNum;
+                if(price == ''){
+                    item.productNum = 0;
+                }else{
+                    item.productNum = this.numberTrim(price);
+                }
+
             }
         }
     }
 </script>
+
+<style scoped lang="scss">
+.item-quantity{
+    input{
+        width: 60px;
+        border: 1px #ccc solid;
+        margin: 5px 0;
+    }
+}
+
+.select-self-area{
+    a{
+        display: inline-block;
+        width: 100%;
+    }
+}
+</style>

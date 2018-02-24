@@ -20,7 +20,7 @@
                     <a href="javascript:void(0)" class="navbar-link" @click="_showLogin" v-if="!nickName">Login</a>
                     <a href="javascript:void(0)" class="navbar-link" @click="_logout" v-if="nickName">Logout</a>
                     <div class="navbar-cart-container">
-                        <span class="navbar-cart-count"></span>
+                        <span class="navbar-cart-count" v-show="cartCount != 0">{{cartCount}}</span>
                         <router-link to="cart" class="navbar-link navbar-cart-link">
                             <svg class="navbar-cart-logo">
                                 <!-- 使用之前定义的购物车svg图标 -->
@@ -77,6 +77,11 @@
                 userPwd: '',
                 errorTip: false,
                 nickName: ''
+            }
+        },
+        props: {
+            cartCount: {
+                type: Number
             }
         },
         methods: {
