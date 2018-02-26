@@ -10,12 +10,16 @@ Vue.use(Router);
 export default new Router({
     mode: 'history',
     routes: [{
-        path: '/',
+        path: '/goodsList',
         name: 'GoodsList',
         component: GoodsList
     },{
         path: '/cart',
         name: 'Cart',
         component: Cart
+    },{
+        path: '/',
+        name: 'home',
+        redirect: '/GoodsList'
     }]
 })

@@ -7,7 +7,10 @@
             </ul>
         </div>
         <div class="nav-demo-content">
-            <component :is="navComponent"></component>
+            <!-- 不需重复渲染（只是显隐切换）时，外面套一层keep-alive标签 -->
+            <keep-alive>
+                <component :is="navComponent"></component>
+            </keep-alive>
         </div>
     </div>
 </template>

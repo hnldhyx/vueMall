@@ -1,5 +1,8 @@
 <template>
-    <h1>页面2</h1>
+    <div>
+        <h1>页面2</h1>
+        <input type="text">
+    </div>
 </template>
 
 <script>
