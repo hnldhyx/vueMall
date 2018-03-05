@@ -52,10 +52,6 @@ Vue.prototype.getType = function(obj){
 
 /*
 *	对象（数组）深拷贝
-*	@param:
-*		target被扩展的对象
-*		length参数的数量
-*		deep是否深度操作
 */
 Vue.prototype.deepClone = function(){
 	

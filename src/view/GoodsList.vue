@@ -24,7 +24,8 @@
                                 <a href="javascript:void(0)" :class="{cur:priceChecked == 'all'}">All</a>
                             </dd>
                             <dd v-for="(price,index) in priceFilterBy" :key="index" @click="_setPriceFilter(index)">
-                                <a href="javascript:void(0)" :class="{cur:priceChecked == index}">{{price.startPrice}} - {{price.endPrice}}</a>
+                                <a href="javascript:void(0)" v-if="price.endPrice" :class="{cur:priceChecked == index}">{{price.startPrice}} - {{price.endPrice}}</a>
+                                <a href="javascript:void(0)" v-else :class="{cur:priceChecked == index}">{{price.startPrice}}以上</a>
                             </dd>
                         </dl>
                     </div>
@@ -32,7 +33,7 @@
                     <div class="accessory-list-wrap">
                         <div class="accessory-list col-4">
                             <ul>
-                                <li v-for="(item) in goodsData" :key="item.productId" :data-id="item.productId">
+                                <li v-for="(item) in displayedList" :key="item.productId" :data-id="item.productId">
                                     <div class="pic">
                                         <a href="javascript:"><img v-lazy="'static/' + item.productImg" alt=""></a>
                                     </div>
@@ -75,6 +76,7 @@
         data(){
             return {
                 goodsData: [],
+                displayedList: [],
                 priceFilterBy: [{
                     'startPrice': '0',
                     'endPrice': '100'
@@ -87,6 +89,8 @@
                 },{
                     'startPrice': '1000',
                     'endPrice': '2000'
+                },{
+                    'startPrice': '2000'
                 }],
                 hasLogin: false, //判断是否登录
                 priceChecked: 'all', //控制选择某一项价格筛选项的样式
@@ -111,6 +115,7 @@
                     let res = rsp.data;
                     if(res.status == 0){
                         this.goodsData = res.result;
+                        this.displayedList = this.deepClone(true, [], this.goodsData);
                         let cartCount = 0;
                         for(let i=0;i<this.goodsData.length;i++){
                             if(this.goodsData[i].hasCarted){
@@ -123,6 +128,12 @@
                 })
             },
             _setPriceFilter(index){
+                let price = this.priceFilterBy[index];
+                let startPrice, endPrice;
+                index == 'all' ? [startPrice, endPrice] = [0,Infinity] : [startPrice=0, endPrice=Infinity] = [this.priceFilterBy[index].startPrice, price.endPrice];
+                this.displayedList = this.goodsData.filter((item) => {
+                    return (+item.productPrice < +endPrice && +item.productPrice >= startPrice);
+                })
                 this.priceChecked = index;
                 this._closeFilterPop();
             },

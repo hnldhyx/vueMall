@@ -24,8 +24,8 @@
       },
       {
         "productId":"10004",
-        "productName":"小米6",
-        "productPrice":"2499",
+        "productName":"小米xxx",
+        "productPrice":"399",
         "productImg":"1.jpg",
         "hasCarted": false
       },
@@ -38,22 +38,29 @@
       },
       {
         "productId":"10006",
-        "productName":"小米6",
-        "productPrice":"2499",
+        "productName":"小米耳机",
+        "productPrice":"888",
         "productImg":"3.jpg",
         "hasCarted": false
       },
       {
         "productId":"10007",
-        "productName":"小米6",
-        "productPrice":"2499",
+        "productName":"小米蓝牙耳机",
+        "productPrice":"1499",
         "productImg":"4.jpg",
         "hasCarted": false
       },
       {
         "productId":"10008",
-        "productName":"小米6",
-        "productPrice":"2499",
+        "productName":"小米移动电源",
+        "productPrice":"199",
+        "productImg":"5.jpg",
+        "hasCarted": false
+      },
+      {
+        "productId":"10009",
+        "productName":"小米随身wifi",
+        "productPrice":"20",
         "productImg":"5.jpg",
         "hasCarted": false
       }
